@@ -1,12 +1,28 @@
 <?php
 include 'db_connect.php';
-$result = $conn->query("SELECT * FROM users");
+
+// เช็คว่า Connection มาไหม?
+if (!isset($conn)) {
+    die("Error: ตัวแปร \$conn ไม่มีค่า ตรวจสอบไฟล์ db_connect.php");
+}
+if ($conn->connect_error) {
+    die("Connection Failed: " . $conn->connect_error);
+}
+
+// เช็ค Query
+$sql = "SELECT * FROM users";
+$result = $conn->query($sql);
+
+if (!$result) {
+    // ถ้า Query พัง ให้บอกสาเหตุ
+    die("SQL Error: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Users</title>
+    <title>MySqli</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="container mt-4">
